@@ -13,7 +13,7 @@ const SuggestionCard = props => {
         <h5>rahulyadav139</h5>
         <h5 className="text-grey">Rahul Yadav</h5>
       </div>
-      <button>Follow</button>
+      <button className="btn-follow">Follow</button>
     </div>
   );
 };
