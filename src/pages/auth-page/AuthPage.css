@@ -19,18 +19,18 @@
   align-items: center;
 }
 
-.brand {
+.intro-section .brand {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
-.brand__logo {
+.intro-section .brand__logo {
   font-size: 3.5rem;
   color: var(--primary-color-dark);
 }
 
-.brand__text {
+.intro-section .brand__text {
   letter-spacing: 0.5rem;
   color: var(--primary-color-dark);
   font-weight: bold;

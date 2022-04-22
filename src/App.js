@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<AuthPage />} />
+        <Route path="/" element={<Homepage />} />
       </Routes>
     </div>
   );

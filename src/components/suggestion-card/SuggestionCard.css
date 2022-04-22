@@ -1,0 +1,21 @@
+.suggestion-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.suggestion-card > button {
+  background: none;
+  outline: none;
+  font-weight: bold;
+  border: none;
+  margin-left: auto;
+  cursor: pointer;
+}
+.suggestion-card h5:first-child {
+  border-bottom: 1.2px solid transparent;
+}
+.suggestion-card h5:first-child:hover {
+  border-color: var(--black-color);
+  cursor: pointer;
+}
