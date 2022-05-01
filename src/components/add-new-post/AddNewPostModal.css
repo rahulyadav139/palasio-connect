@@ -1,0 +1,30 @@
+.add-new-post-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.add-new-post-container input {
+  display: none;
+}
+.add-new-post-container .file-picker-label {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  font-size: 2rem;
+  border: 1.5px dashed var(--grey-color);
+  cursor: pointer;
+  width: 100%;
+}
+.add-new-post-container textarea {
+  outline: none;
+  border: 1px solid var(--grey-color);
+  padding: 0.5rem;
+}
+
+.add-new-post-container .btn-dismiss {
+  position: absolute;
+  margin: 2rem;
+  top: 0;
+  right: 0;
+}

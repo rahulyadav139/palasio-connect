@@ -8,3 +8,4 @@ export { EditUserProfileModal } from './edit-user-profile-modal/EditUserProfileM
 export { EditProfile } from './forms/edit-profile-form/EditProfile';
 export { ChangePassword } from './forms/change-password-form/ChangePassword';
 export { DeleteAccount } from './forms/delete-account-form/DeleteAccount';
+export { AddNewPostModal } from './add-new-post/AddNewPostModal';
