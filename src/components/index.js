@@ -3,3 +3,8 @@ export { SignupForm } from './authorization/SignupForm';
 export { Header } from './header/Header';
 export { SocialMediaCard } from './social-media-card/SocialMediaCard';
 export { SuggestionCard } from './suggestion-card/SuggestionCard';
+export { PostImageCard } from './post-image-card/PostImageCard';
+export { EditUserProfileModal } from './edit-user-profile-modal/EditUserProfileModal';
+export { EditProfile } from './forms/edit-profile-form/EditProfile';
+export { ChangePassword } from './forms/change-password-form/ChangePassword';
+export { DeleteAccount } from './forms/delete-account-form/DeleteAccount';

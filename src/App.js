@@ -1,12 +1,14 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
-import { Homepage, AuthPage, Suggestions } from './pages';
+import { Homepage, AuthPage, Suggestions, Profile, Account } from './pages';
 
 function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Suggestions />} />
+        <Route path="/" element={<Homepage />} />
+        <Route path="/suggestions" element={<Suggestions />} />
+        <Route path="/account/*" element={<Account />} />
       </Routes>
     </div>
   );

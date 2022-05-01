@@ -49,7 +49,8 @@
   top: 0;
 }
 
-.list-item:first-child {
+.list-item:first-child,
+.list-item:nth-child(2) {
   transform: translateY(0.25rem);
 }
 
