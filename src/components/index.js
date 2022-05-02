@@ -10,3 +10,4 @@ export { ChangePassword } from './forms/change-password-form/ChangePassword';
 export { DeleteAccount } from './forms/delete-account-form/DeleteAccount';
 export { AddNewPostModal } from './add-new-post/AddNewPostModal';
 export { ExploreImageCard } from './explore-image-card/ExploreImageCard';
+export { Notification } from './notification/Notification';
