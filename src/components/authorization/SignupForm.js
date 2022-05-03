@@ -31,6 +31,15 @@ const SignupForm = props => {
   } = useInput(value => value.length !== 0);
 
   const {
+    value: username,
+    setIsTouched: usernameIsTouched,
+    isValid: usernameIsValid,
+    isInvalid: usernameIsInvalid,
+    inputChangeHandler: usernameChangeHandler,
+    inputBlurHandler: usernameBlurHandler,
+  } = useInput(value => value.length !== 0);
+
+  const {
     value: email,
     setIsTouched: emailIsTouched,
     isValid: emailIsValid,
@@ -66,6 +75,7 @@ const SignupForm = props => {
     ? incorrectClasses
     : correctClasses;
   const lastNameClasses = lastNameIsInvalid ? incorrectClasses : correctClasses;
+  const usernameClasses = usernameIsInvalid ? incorrectClasses : correctClasses;
   const emailClasses = emailIsInvalid ? incorrectClasses : correctClasses;
   const passwordClasses = passwordIsInvalid
     ? ' input-field-icon responsive error'
@@ -89,16 +99,22 @@ const SignupForm = props => {
     if (
       !firstNameIsValid ||
       !lastNameIsValid ||
+      !usernameIsValid ||
       !emailIsValid ||
       !passwordIsValid ||
       !confirmPasswordIsValid
     ) {
       firstNameIsTouched(true);
       lastNameIsTouched(true);
+      usernameIsTouched(true);
       emailIsTouched(true);
       passwordIsTouched(true);
       confirmPasswordIsTouched(true);
       return;
+    }
+
+    if (!username.trim().length > 4) {
+      return console.log('Username should be greater than 4 characters');
     }
 
     const regexSmallLater = /[a-z]/g;
@@ -120,6 +136,7 @@ const SignupForm = props => {
     const userData = {
       fullName: textFormatter(`${firstName} ${lastName}`),
       email: email.toLowerCase(),
+      username: username.toLowerCase(),
       password,
     };
 
@@ -132,7 +149,16 @@ const SignupForm = props => {
 
     if (error) return;
 
-    // dispatch(AuthActions.loginHandler(data));
+    const { fullName, username: loginUsername, token, userId } = data;
+
+    dispatch(
+      AuthActions.loginHandler({
+        fullName,
+        username: loginUsername,
+        token,
+        userId,
+      })
+    );
   };
 
   return (
@@ -176,6 +202,17 @@ const SignupForm = props => {
           id="email"
           className={emailClasses}
           type="email"
+        />
+      </div>
+      <div>
+        <label htmlFor="username">Username</label>
+        <input
+          value={username}
+          onChange={usernameChangeHandler}
+          onBlur={usernameBlurHandler}
+          id="username"
+          className={usernameClasses}
+          type="text"
         />
       </div>
       <div>

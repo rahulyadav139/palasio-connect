@@ -60,7 +60,16 @@ const LoginForm = props => {
 
     if (error) return;
 
-    dispatch(AuthActions.loginHandler(data));
+    const { fullName, username: loginUsername, token, userId } = data;
+
+    dispatch(
+      AuthActions.loginHandler({
+        fullName,
+        username: loginUsername,
+        token,
+        userId,
+      })
+    );
   };
 
   const guestLoginHandler = async () => {};
