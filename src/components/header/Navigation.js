@@ -1,7 +1,7 @@
 import './Navigation.css';
 import { Notification } from '../notification/Notification';
 
-const Navigation = props => {
+const Navigation = ({ onAddNewPost }) => {
   return (
     <nav>
       <ul className="list-items">
@@ -11,7 +11,7 @@ const Navigation = props => {
           </button>
         </li>
         <li className="list-item">
-          <button className="btn icon primary medium">
+          <button onClick={onAddNewPost} className="btn icon primary medium">
             <i class="bi bi-plus-square"></i>
           </button>
         </li>

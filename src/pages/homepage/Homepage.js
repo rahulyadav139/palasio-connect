@@ -5,11 +5,13 @@ import {
   SuggestionCard,
   AddNewPostModal,
 } from '../../components';
+import { useState } from 'react';
 
 const Homepage = props => {
+  const [isAddNewPostModal, setIsAddNewPostModal] = useState(false);
   return (
     <>
-      <Header />
+      <Header onAddNewPost={() => setIsAddNewPostModal(true)} />
       <main className="main-homepage">
         <div className="social-media-cards-container">
           {Array.from({ length: 5 }).map(card => (
@@ -27,7 +29,9 @@ const Homepage = props => {
             <SuggestionCard />
           ))}
         </div>
-        {/* <AddNewPostModal /> */}
+        {isAddNewPostModal && (
+          <AddNewPostModal onCloseModal={() => setIsAddNewPostModal(false)} />
+        )}
       </main>
     </>
   );
