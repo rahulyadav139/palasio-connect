@@ -111,10 +111,10 @@ const SignupForm = props => {
       !password.match(regexSpecialChar)
     ) {
       setPasswordValidity(true);
-      return;
+      return console.log("password doesn't meet criteria");
     }
     if (password !== confirmPassword) {
-      return;
+      return console.log("password doesn't match");
     }
 
     const userData = {
@@ -132,7 +132,7 @@ const SignupForm = props => {
 
     if (error) return;
 
-    dispatch(AuthActions.loginHandler(data));
+    // dispatch(AuthActions.loginHandler(data));
   };
 
   return (
