@@ -12,7 +12,7 @@
   z-index: 200;
   width: 25rem;
   text-align: center;
-  background: var(--off-white-color);
+  background: var(--white-color);
 }
 .notification-items .test:focus ~ .notification-container {
   display: flex;
