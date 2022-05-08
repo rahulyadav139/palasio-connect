@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 
 function App() {
   const isAuth = useSelector(state => state.auth.isAuth);
+  console.log('top');
 
   return (
     <div className="App">

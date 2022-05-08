@@ -7,6 +7,7 @@ const initialState = {
   followings: [],
   followers: [],
   avatarUrl: '',
+  totalPosts: 0,
 };
 
 const UserSlice = createSlice({
@@ -14,15 +15,23 @@ const UserSlice = createSlice({
   name: 'user',
   reducers: {
     initializeAccount(state, action) {
-      const { userId, fullName, username, followers, followings, avatarUrl } =
-        action.payload;
+      const {
+        userId,
+        fullName,
+        username,
+        followers,
+        followings,
+        avatarUrl,
+        totalPosts,
+      } = action.payload;
 
       state.userId = userId;
       state.fullName = fullName;
       state.username = username;
-      state.followings = followings;
-      state.followers = followers;
+      state.followings = followings ?? [];
+      state.followers = followers ?? [];
       state.avatarUrl = avatarUrl;
+      totalPosts = totalPosts;
     },
 
     addNewFollower(state, action) {
@@ -32,6 +41,14 @@ const UserSlice = createSlice({
       state.followers = state.followers.filter(
         followerId => followerId !== action.payload.userId
       );
+    },
+
+    addToFollowings(state, action) {
+      state.followings = state.followings.concat(action.payload);
+    },
+
+    createNewPost(state, action) {
+      state.totalPosts++;
     },
   },
 });
