@@ -5,16 +5,41 @@ import {
   SuggestionCard,
   AddNewPostModal,
 } from '../../components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useFetch } from '../../hooks';
 
 const Homepage = props => {
   const [isAddNewPostModal, setIsAddNewPostModal] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const { getData } = useFetch();
+
+  useEffect(() => {
+    (async () => {
+      const { data, error, status } = await getData(
+        process.env.REACT_APP_BACKEND_URL + '/post/all',
+        true
+      );
+
+      setPosts(data.posts);
+    })();
+    (async () => {
+      const { data, error, status } = await getData(
+        process.env.REACT_APP_BACKEND_URL + '/user-suggestions',
+        true
+      );
+
+      setSuggestions(data.suggestions);
+    })();
+  }, []);
+
   return (
     <>
       <Header onAddNewPost={() => setIsAddNewPostModal(true)} />
       <main className="main-homepage">
         <div className="social-media-cards-container">
-          {Array.from({ length: 5 }).map(card => (
+          {posts.map(post => (
             <SocialMediaCard />
           ))}
         </div>
@@ -22,11 +47,17 @@ const Homepage = props => {
         <div className="suggestion-container">
           <div className="flex space-between">
             <h4 className="text-grey">Suggestions For You</h4>
-            <button className="btn-see-all">See All</button>
+            <Link to="/suggestions">
+              <button className="btn-see-all">See All</button>
+            </Link>
           </div>
           <div className="hr-line thin solid grey"></div>
-          {Array.from({ length: 5 }).map(card => (
-            <SuggestionCard />
+          {suggestions.map(suggestion => (
+            <SuggestionCard
+              avatarUrl={suggestion.avatarUrl}
+              username={suggestion.username}
+              fullName={suggestion.fullName}
+            />
           ))}
         </div>
         {isAddNewPostModal && (

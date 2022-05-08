@@ -1,17 +1,14 @@
 import './SuggestionCard.css';
 
-const SuggestionCard = props => {
+const SuggestionCard = ({ avatarUrl, username, fullName }) => {
   return (
     <div className=" suggestion-card ">
       <div className="avatar small">
-        <img
-          src="https://i.picsum.photos/id/933/536/354.jpg?hmac=8lVRoNcysARFInMz443q-mc0wbgwHbJgFe5ChEo-YaQ"
-          alt=""
-        />
+        {avatarUrl ? <img src={avatarUrl} alt={fullName} /> : fullName[0]}
       </div>
       <div>
-        <h5>rahulyadav139</h5>
-        <h5 className="text-grey">Rahul Yadav</h5>
+        <h5>{username}</h5>
+        <h5 className="text-grey">{fullName}</h5>
       </div>
       <button className="btn-follow">Follow</button>
     </div>

@@ -36,7 +36,7 @@ const SocialMediaCard = props => {
         </button>
 
         <button class="btn icon medium primary">
-          <i class="fas fa-share-alt"></i>
+          <i class="bi bi-bookmark"></i>
         </button>
       </div>
       <p>sdfbsdfbsfbsfbsdfbsdfbsfb</p>

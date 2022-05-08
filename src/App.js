@@ -20,6 +20,7 @@ function App() {
         <Route path="/suggestions" element={<Suggestions />} />
         <Route path="/account/*" element={<Account />} />
         <Route path="/explore" element={<ExplorePage />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </div>
   );
