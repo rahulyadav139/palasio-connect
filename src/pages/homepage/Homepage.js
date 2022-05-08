@@ -50,7 +50,7 @@ const Homepage = props => {
       <main className="main-homepage">
         <div className="social-media-cards-container">
           {posts.map(post => (
-            <SocialMediaCard post={post} />
+            <SocialMediaCard post={post} updatePosts={setPosts} />
           ))}
         </div>
 

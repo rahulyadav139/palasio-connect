@@ -1,6 +1,10 @@
 import './SocialMediaCard.css';
+import { useSelector } from 'react-redux';
+import { useFetch } from '../../hooks';
 
-const SocialMediaCard = ({ post }) => {
+const SocialMediaCard = ({ post, updatePosts }) => {
+  const { sendData } = useFetch();
+  const userId = useSelector(state => state.user.userId);
   const {
     imageUrl,
     likes,
@@ -8,7 +12,25 @@ const SocialMediaCard = ({ post }) => {
     author: { fullName, avatarUrl },
     comments,
     createdAt,
+    _id,
   } = post;
+
+  const addToLikeHandler = async () => {
+    const { data, error, status } = await sendData(
+      process.env.REACT_APP_BACKEND_URL + '/post/like-a-post',
+      'POST',
+      { postId: _id },
+      true
+    );
+
+    if (error) return;
+
+    updatePosts(prev =>
+      prev.map(post =>
+        post._id === _id ? { ...post, likes: likes.concat(userId) } : post
+      )
+    );
+  };
   return (
     <div class="card shadow social">
       <div class="flex space-between align-center">
@@ -40,8 +62,12 @@ const SocialMediaCard = ({ post }) => {
         />
       </div>
       <div class="actions flex gap">
-        <button class="btn icon medium primary">
-          <i class="far fa-heart"></i>
+        <button onClick={addToLikeHandler} class="btn icon medium primary">
+          {!likes.includes(userId) ? (
+            <i class="far fa-heart"></i>
+          ) : (
+            <i style={{ color: 'red' }} class="fas fa-heart"></i>
+          )}
         </button>
         <button class="btn icon medium primary">
           <i class="far fa-comment"></i>
