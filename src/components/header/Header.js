@@ -1,7 +1,7 @@
 import './Header.css';
-import Navigation from './Navigation';
-import SearchInput from './SearchInput';
-import HamburgerNavigation from './HamburgerNavigation';
+import { Navigation } from './Navigation';
+import { SearchInput } from './SearchInput';
+import { HamburgerNavigation } from './HamburgerNavigation';
 import { Link } from 'react-router-dom';
 
 const Header = ({ onAddNewPost }) => {

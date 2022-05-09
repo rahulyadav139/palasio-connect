@@ -124,4 +124,4 @@ const HamburgerNavigation = props => {
     </Fragment>
   );
 };
-export default HamburgerNavigation;
+export { HamburgerNavigation };

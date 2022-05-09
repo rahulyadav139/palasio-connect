@@ -54,10 +54,7 @@ const Homepage = props => {
           ))}
         </div>
 
-        <div
-          className="sugge
-        stion-container"
-        >
+        <div className="suggestion-container">
           <div className="flex space-between">
             <h4 className="text-grey">Suggestions For You</h4>
             <Link to="/suggestions">

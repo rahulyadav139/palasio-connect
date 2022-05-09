@@ -60,19 +60,30 @@ const LoginForm = props => {
 
     if (error) return;
 
-    const { fullName, username: loginUsername, token, userId } = data;
+    const {
+      fullName,
+      username: loginUsername,
+      token,
+      userId,
+      followings,
+      followers,
+      saved,
+    } = data;
 
     dispatch(
       AuthActions.loginHandler({
         token,
       })
     );
-
+    console.log('login', userId);
     dispatch(
       UserActions.initializeAccount({
         fullName,
         username: loginUsername,
         userId,
+        followers,
+        followings,
+        saved,
       })
     );
   };
