@@ -5,34 +5,47 @@ import {
   SuggestionCard,
   AddNewPostModal,
 } from '../../components';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useFetch } from '../../hooks';
 import { useSelector } from 'react-redux';
+
+let isInitialized = false;
 
 const Homepage = props => {
   const [isAddNewPostModal, setIsAddNewPostModal] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [posts, setPosts] = useState([]);
   const { getData } = useFetch();
-  const { followings, totalPosts } = useSelector(state => state.user);
+  const { followings, totalPosts, updatePosts } = useSelector(
+    state => state.user
+  );
 
   const totalFollowings = followings.length;
 
   console.log('run');
 
-  useEffect(() => {
-    console.log('useEffect');
+  const getAllPosts = useCallback(() => {
     (async () => {
       const { data, error, status } = await getData(
         process.env.REACT_APP_BACKEND_URL + '/post/all',
         true
       );
 
-      console.log(data.posts);
+      // console.log(data.posts);
       setPosts(data.posts);
     })();
-  }, [totalPosts]);
+  }, [getData]);
+
+  useEffect(() => {
+    getAllPosts();
+  }, [getAllPosts]);
+
+  useEffect(() => {
+    if (!updatePosts) return;
+
+    getAllPosts();
+  }, [updatePosts, getAllPosts]);
 
   useEffect(() => {
     (async () => {

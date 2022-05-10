@@ -9,6 +9,7 @@ const initialState = {
   avatarUrl: '',
   totalPosts: 0,
   saved: [],
+  updatePosts: false,
 };
 
 const UserSlice = createSlice({
@@ -61,6 +62,9 @@ const UserSlice = createSlice({
     },
     removeAPost(state, action) {
       state.saved = state.saved.filter(id => id !== action.payload);
+    },
+    updatePosts(state) {
+      state.updatePosts = !state.updatePosts;
     },
   },
 });

@@ -2,23 +2,26 @@ import './SocialMediaCard.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { UserActions } from '../../store/user-slice';
 import { useFetch } from '../../hooks';
+import { dateFormatter } from '../../utils';
+import { useRef } from 'react';
 
 const SocialMediaCard = ({ post, updatePosts }) => {
   const { sendData } = useFetch();
   const { userId, saved } = useSelector(state => state.user);
   const dispatch = useDispatch();
+  const commentInputRef = useRef();
 
   const {
     imageUrl,
     likes,
     caption,
-    author: { fullName, avatarUrl },
+    author: { fullName, avatarUrl, username },
     comments,
     createdAt,
     _id,
   } = post;
 
-  console.log(saved);
+  const isUserCommented = comments.some(comment => comment.user === userId);
 
   const addToLikeHandler = async () => {
     const { data, error, status } = await sendData(
@@ -80,6 +83,30 @@ const SocialMediaCard = ({ post, updatePosts }) => {
 
     dispatch(UserActions.removeAPost(_id));
   };
+
+  const commentOnAPostHandler = async () => {
+    const userComment = commentInputRef.current.value;
+
+    const { data, error, status } = await sendData(
+      process.env.REACT_APP_BACKEND_URL + '/post/comment-on-a-post',
+      'POST',
+      {
+        postId: _id,
+        comment: userComment,
+      },
+      true
+    );
+
+    if (error) return;
+
+    dispatch(UserActions.updatePosts());
+
+    commentInputRef.current.value = '';
+
+    setTimeout(() => {
+      dispatch(UserActions.updatePosts());
+    }, 500);
+  };
   return (
     <div class="card shadow social">
       <div class="flex space-between align-center">
@@ -96,7 +123,7 @@ const SocialMediaCard = ({ post, updatePosts }) => {
           </div>
           <div class="flex col">
             <div class="user">{fullName}</div>
-            <div class="time">Today</div>
+            <div class="time">{dateFormatter(createdAt)}</div>
           </div>
         </div>
         <button class="btn icon medium primary">
@@ -126,7 +153,11 @@ const SocialMediaCard = ({ post, updatePosts }) => {
           )}
         </button>
         <button class="btn icon medium primary">
-          <i class="far fa-comment"></i>
+          {isUserCommented ? (
+            <i class="fas fa-comment"></i>
+          ) : (
+            <i class="far fa-comment"></i>
+          )}
         </button>
         <button
           onClick={
@@ -143,12 +174,22 @@ const SocialMediaCard = ({ post, updatePosts }) => {
           )}
         </button>
       </div>
-      <p className="text-bold">{'test'}</p>
-      <p>{caption}</p>
+      <div className="flex gap">
+        <p className="text-bold">{username}</p>
+        <p>{caption}</p>
+      </div>
+
+      {comments.slice(0, 2).map(commentData => (
+        <div className="flex gap">
+          <p className="text-bold">{commentData.user.username}</p>
+          <p>{commentData.comment}</p>
+        </div>
+      ))}
+      <p className="text-grey cursor-pointer">See all</p>
       <div className="hr-line thin solid grey"></div>
       <div className="comment-actions">
-        <input placeholder="Add a comment" />
-        <button>Comment</button>
+        <input ref={commentInputRef} placeholder="Add a comment" />
+        <button onClick={commentOnAPostHandler}>Comment</button>
       </div>
     </div>
   );
