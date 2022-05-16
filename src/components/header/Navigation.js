@@ -1,58 +1,82 @@
 import './Navigation.css';
-import { Notification } from '../notification/Notification';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { AddNewPostModal } from '../../components';
+import { NotificationModal } from '../notification-modal/NotificationModal';
 
-const Navigation = ({ onAddNewPost }) => {
+const Navigation = () => {
+  const [isAddNewPostModal, setIsAddNewPostModal] = useState(false);
+  const [isNotificationModal, setIsNotificationModal] = useState(false);
+  const { userId, avatarUrl, fullName, notifications } = useSelector(
+    state => state.user
+  );
+
   return (
-    <nav>
-      <ul className="list-items">
-        <Link to="/">
+    <>
+      <nav>
+        <ul className="list-items">
+          <Link to="/">
+            <li className="list-item">
+              <button className="btn icon primary medium">
+                <i className="fas fa-home"></i>
+              </button>
+            </li>
+          </Link>
           <li className="list-item">
-            <button className="btn icon primary medium">
-              <i class="fas fa-home"></i>
+            <button
+              onClick={() => setIsAddNewPostModal(true)}
+              className="btn icon primary medium"
+            >
+              <i className="bi bi-plus-square"></i>
             </button>
           </li>
-        </Link>
-        <li className="list-item">
-          <button onClick={onAddNewPost} className="btn icon primary medium">
-            <i class="bi bi-plus-square"></i>
-          </button>
-        </li>
 
-        <Link to="/explore">
-          <li className="list-item">
-            <button className="btn icon primary medium">
-              <i class="fas fa-compass"></i>
-            </button>
+          <Link to="/explore">
+            <li className="list-item">
+              <button className="btn icon primary medium">
+                <i className="fas fa-compass"></i>
+              </button>
+            </li>
+          </Link>
+
+          <li className=" list-item notification-items">
+            <div className="badge-container">
+              <button
+                onClick={() => setIsNotificationModal(true)}
+                className="btn icon medium primary badge-counter test"
+              >
+                <i className="fas fa-bell"></i>
+              </button>
+              {notifications.length !== 0 && (
+                <span className="badge-number">{notifications.length}</span>
+              )}
+            </div>
           </li>
-        </Link>
-
-        <li className=" list-item notification-items">
-          <div class="badge-container">
-            <button class="btn icon medium primary badge-counter test">
-              <i class="fas fa-bell"></i>
-            </button>
-            {/* <span class="badge-number">10</span> */}
-            <div className="notification-container">
-              <div className="flex end">
-                <p className="text-bold">Clear all</p>
+          <Link to={`/profile/${userId}`}>
+            <li className=" list-item cursor-pointer flex align-center">
+              <div className="avatar small">
+                {avatarUrl ? (
+                  <img
+                    src={process.env.REACT_APP_BACKEND_URL + '/' + avatarUrl}
+                    alt={userId}
+                    loading="lazy"
+                  />
+                ) : (
+                  fullName[0]
+                )}
               </div>
-              {Array.from({ length: 5 }).map(notification => (
-                <Notification />
-              ))}
-            </div>
-          </div>
-        </li>
-        <Link to="/profile">
-          <li className=" list-item cursor-pointer flex align-center">
-            <div class="avatar small">
-              <img src="https://picsum.photos/536/354" alt="sample" />
-            </div>
-            {/* <i class="fas fa-caret-down"></i> */}
-          </li>
-        </Link>
-      </ul>
-    </nav>
+            </li>
+          </Link>
+        </ul>
+      </nav>
+      {isAddNewPostModal && (
+        <AddNewPostModal onCloseModal={() => setIsAddNewPostModal(false)} />
+      )}
+      {isNotificationModal && (
+        <NotificationModal onCloseModal={() => setIsNotificationModal(false)} />
+      )}
+    </>
   );
 };
 export { Navigation };

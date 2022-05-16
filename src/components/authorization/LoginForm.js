@@ -1,12 +1,13 @@
 import './AuthForm.css';
-import { useInput, useFetch } from '../../hooks';
+import { useInput } from '../../hooks';
 import { useState } from 'react';
 import { AuthActions, UserActions } from '../../store/actions';
+import { loginUser } from '../../store/auth-slice';
 import { useDispatch } from 'react-redux';
 
 const LoginForm = props => {
   const [showPassword, setShowPassword] = useState(false);
-  const { sendData } = useFetch();
+
   const dispatch = useDispatch();
 
   const {
@@ -40,7 +41,7 @@ const LoginForm = props => {
     setShowPassword(prev => !prev);
   };
 
-  const submitHandler = async e => {
+  const submitHandler = e => {
     e.preventDefault();
     if (!emailIsValid || !passwordIsValid) {
       emailIsTouched(true);
@@ -48,47 +49,25 @@ const LoginForm = props => {
       return;
     }
 
-    const { data, error, status } = await sendData(
-      process.env.REACT_APP_BACKEND_URL + '/auth/login',
-      'POST',
-      {
+    dispatch(
+      loginUser({
         email: email.toLowerCase(),
         password,
-      },
-      false
-    );
-
-    if (error) return;
-
-    const {
-      fullName,
-      username: loginUsername,
-      token,
-      userId,
-      followings,
-      followers,
-      saved,
-    } = data;
-
-    dispatch(
-      AuthActions.loginHandler({
-        token,
-      })
-    );
-    console.log('login', userId);
-    dispatch(
-      UserActions.initializeAccount({
-        fullName,
-        username: loginUsername,
-        userId,
-        followers,
-        followings,
-        saved,
       })
     );
   };
 
-  const guestLoginHandler = async () => {};
+  
+
+  const guestLoginHandler = e => {
+    e.preventDefault();
+    dispatch(
+      loginUser({
+        email: process.env.REACT_APP_TEST_ID,
+        password: process.env.REACT_APP_TEST_PASSWORD,
+      })
+    );
+  };
 
   return (
     <form onSubmit={submitHandler} className="auth-form shadow">

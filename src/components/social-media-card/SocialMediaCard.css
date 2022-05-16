@@ -21,3 +21,6 @@
   background: transparent;
   border: 1px solid var(--primary-color);
 }
+.card .user:hover {
+  text-decoration: underline;
+}

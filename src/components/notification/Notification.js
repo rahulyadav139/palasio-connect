@@ -1,16 +1,22 @@
 import './Notification.css';
+import { timeDifferenceFun } from '../../utils/time-difference';
+const Notification = ({ notification }) => {
+  const {
+    user: { avatarUrl, fullName, _id },
+    time,
+  } = notification;
 
-const Notification = props => {
   return (
-    <div class="notification">
-      <div class="avatar small">
-        <img src="https://picsum.photos/536/354" alt="sample" />
+    <div className="notification">
+      <div className="avatar small">
+        {avatarUrl ? <img src={avatarUrl} alt={_id} /> : fullName[0]}
       </div>
 
       <div>
-        <h5 class="notification-title">Mohit Yadav Wants to be Your Friend</h5>
-        <p class="notification-details">
-          <i class="fas fa-user-plus"></i> 25 min ago
+        <h5 className="notification-title">{`${fullName} is started following you`}</h5>
+        <p className="notification-details">
+          <i className="fas fa-user-plus"></i>
+          {` ${timeDifferenceFun(time)}`}
         </p>
       </div>
     </div>

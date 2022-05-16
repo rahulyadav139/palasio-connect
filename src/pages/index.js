@@ -1,6 +1,9 @@
 export { Account } from './account/Account.js';
 export { AuthPage } from './auth-page/AuthPage.js';
 export { ExplorePage } from './explore-page/ExplorePage.js';
+export { Followers } from './followers/Followers.js';
+export { Followings } from './followings/Followings.js';
 export { Homepage } from './homepage/Homepage.js';
 export { Profile } from './profile/Profile.js';
+export { SinglePost } from './single-post/SinglePost.js';
 export { Suggestions } from './suggestions/Suggestions.js';

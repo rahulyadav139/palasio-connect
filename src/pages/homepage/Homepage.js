@@ -1,70 +1,36 @@
 import './Homepage.css';
-import {
-  Header,
-  SocialMediaCard,
-  SuggestionCard,
-  AddNewPostModal,
-} from '../../components';
-import { useState, useEffect, useCallback } from 'react';
+import { Header, SocialMediaCard, FollowerCard } from '../../components';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useFetch } from '../../hooks';
-import { useSelector } from 'react-redux';
 
-let isInitialized = false;
+import { useSelector, useDispatch } from 'react-redux';
+import { getUser, getSuggestions } from '../../store/user-slice';
+import { getPosts } from '../../store/post-slice';
 
 const Homepage = props => {
-  const [isAddNewPostModal, setIsAddNewPostModal] = useState(false);
-  const [suggestions, setSuggestions] = useState([]);
-  const [posts, setPosts] = useState([]);
-  const { getData } = useFetch();
-  const { followings, totalPosts, updatePosts } = useSelector(
-    state => state.user
-  );
-
-  const totalFollowings = followings.length;
-
-  console.log('run');
-
-  const getAllPosts = useCallback(() => {
-    (async () => {
-      const { data, error, status } = await getData(
-        process.env.REACT_APP_BACKEND_URL + '/post/all',
-        true
-      );
-
-      // console.log(data.posts);
-      setPosts(data.posts);
-    })();
-  }, [getData]);
+  const dispatch = useDispatch();
+  const { suggestions, fullName } = useSelector(state => state.user);
+  const posts = useSelector(state => state.post.posts);
 
   useEffect(() => {
-    getAllPosts();
-  }, [getAllPosts]);
+    dispatch(getUser());
+    dispatch(getSuggestions());
+    dispatch(getPosts());
+  }, [dispatch]);
 
-  useEffect(() => {
-    if (!updatePosts) return;
-
-    getAllPosts();
-  }, [updatePosts, getAllPosts]);
-
-  useEffect(() => {
-    (async () => {
-      const { data, error, status } = await getData(
-        process.env.REACT_APP_BACKEND_URL + '/user-suggestions',
-        true
-      );
-      setSuggestions(data.suggestions);
-    })();
-  }, [totalFollowings]);
+  if (!fullName) return <></>;
 
   return (
     <>
-      <Header onAddNewPost={() => setIsAddNewPostModal(true)} />
+      <Header />
       <main className="main-homepage">
         <div className="social-media-cards-container">
-          {posts.map(post => (
-            <SocialMediaCard post={post} updatePosts={setPosts} />
+          {[...posts].reverse().map(post => (
+            <SocialMediaCard key={post._id} post={post} />
           ))}
+          {!Boolean(posts.length) && (
+            <p className="text-center text-bold">No Posts</p>
+          )}
         </div>
 
         <div className="suggestion-container">
@@ -76,17 +42,9 @@ const Homepage = props => {
           </div>
           <div className="hr-line thin solid grey"></div>
           {suggestions.map(suggestion => (
-            <SuggestionCard
-              avatarUrl={suggestion.avatarUrl}
-              username={suggestion.username}
-              fullName={suggestion.fullName}
-              _id={suggestion._id}
-            />
+            <FollowerCard key={suggestion._id} userData={suggestion} />
           ))}
         </div>
-        {isAddNewPostModal && (
-          <AddNewPostModal onCloseModal={() => setIsAddNewPostModal(false)} />
-        )}
       </main>
     </>
   );

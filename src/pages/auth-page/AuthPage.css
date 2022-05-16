@@ -46,3 +46,7 @@
   color: var(--primary-color);
   font-weight: bold;
 }
+
+.main-auth-page .brand__logo {
+  border: none;
+}

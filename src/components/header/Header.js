@@ -4,7 +4,7 @@ import { SearchInput } from './SearchInput';
 import { HamburgerNavigation } from './HamburgerNavigation';
 import { Link } from 'react-router-dom';
 
-const Header = ({ onAddNewPost }) => {
+const Header = () => {
   return (
     <header className="nav-bar shadow">
       {/* <HamburgerNavigation /> */}
@@ -24,7 +24,7 @@ const Header = ({ onAddNewPost }) => {
 
       <SearchInput />
 
-      <Navigation onAddNewPost={onAddNewPost} />
+      <Navigation />
     </header>
   );
 };

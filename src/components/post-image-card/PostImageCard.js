@@ -1,32 +1,57 @@
 import './PostImageCard.css';
+import { useFetch } from '../../hooks';
+import { UserActions } from '../../store/user-slice';
+import { useDispatch } from 'react-redux';
+import { deleteAPost } from '../../store/post-slice';
+import { removeASavedPost } from '../../store/user-slice';
+import { Link } from 'react-router-dom';
 
-const PostImageCard = props => {
+const PostImageCard = ({ post, isUserLoggedIn, isSavedPost, setUserData }) => {
+  const { imageUrl, likes, comments, _id } = post;
+
+  const dispatch = useDispatch();
+
+  const totalLikes = likes.length;
+  const totalComments = comments.length;
+
+  const userActionHandler = () => {
+    isSavedPost ? dispatch(removeASavedPost(_id)) : dispatch(deleteAPost(_id));
+  };
+
   return (
     <div className="post-image-card">
       <img
-        src="https://i.picsum.photos/id/933/536/354.jpg?hmac=8lVRoNcysARFInMz443q-mc0wbgwHbJgFe5ChEo-YaQ"
-        alt=""
+        src={process.env.REACT_APP_BACKEND_URL + '/' + imageUrl}
+        alt={_id}
+        loading="lazy"
       />
 
-      <div className="post-details">
-        <div>
-          <div className="flex gap">
-            <span className="icon primary medium">
-              <i class="fas fa-heart"></i>
-            </span>
-            <span className="text-white">123</span>
-          </div>
-          <div className="flex gap">
-            <span className="icon primary medium">
-              <i class="fas fa-comment"></i>
-            </span>
-            <span className="text-white">123</span>
+      <Link to={`/post/${_id}`}>
+        <div className="post-details">
+          <div>
+            <div className="flex gap">
+              <span className="icon primary medium">
+                <i className="fas fa-heart"></i>
+              </span>
+              <span className="text-white">{totalLikes}</span>
+            </div>
+            <div className="flex gap">
+              <span className="icon primary medium">
+                <i className="fas fa-comment"></i>
+              </span>
+              <span className="text-white">{totalComments}</span>
+            </div>
           </div>
         </div>
-      </div>
-      <button className="btn primary icon small btn-delete">
-        <i class="fas fa-trash"></i>
-      </button>
+      </Link>
+      {isUserLoggedIn && (
+        <button
+          onClick={userActionHandler}
+          className="btn primary icon small btn-delete"
+        >
+          <i className="fas fa-trash"></i>
+        </button>
+      )}
     </div>
   );
 };

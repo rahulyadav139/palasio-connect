@@ -1,16 +1,16 @@
 import './AuthForm.css';
 import { useState } from 'react';
-import { useInput, useFetch } from '../../hooks';
+import { useInput } from '../../hooks';
 import { textFormatter } from '../../utils';
 import { AuthActions } from '../../store/actions';
 import { useDispatch } from 'react-redux';
+import { signupUser } from '../../store/auth-slice';
 
 const SignupForm = props => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordValidity, setPasswordValidity] = useState(false);
   const dispatch = useDispatch();
-  const { sendData } = useFetch();
 
   const {
     value: firstName,
@@ -140,25 +140,7 @@ const SignupForm = props => {
       password,
     };
 
-    const { data, error, status } = await sendData(
-      process.env.REACT_APP_BACKEND_URL + '/auth/signup',
-      'PUT',
-      userData,
-      false
-    );
-
-    if (error) return;
-
-    const { fullName, username: loginUsername, token, userId } = data;
-
-    dispatch(
-      AuthActions.loginHandler({
-        fullName,
-        username: loginUsername,
-        token,
-        userId,
-      })
-    );
+    dispatch(signupUser(userData));
   };
 
   return (

@@ -1,0 +1,20 @@
+.notification-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.notification-details {
+  text-align: left;
+}
+.dark-theme .notification-container {
+  background: var(--dark-theme-bg-color);
+}
+.btn-clear {
+  font-weight: bold;
+  cursor: pointer;
+}
+.btn-clear:hover,
+.btn-clear:active {
+  text-decoration: underline;
+}

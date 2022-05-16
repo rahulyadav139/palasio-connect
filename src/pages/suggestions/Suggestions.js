@@ -1,14 +1,40 @@
 import './Suggestions.css';
-import { SuggestionCard, Header } from '../../components';
+import { FollowerCard, Header } from '../../components';
+import { useEffect, useState } from 'react';
+
+import axios from 'axios';
 
 const Suggestions = props => {
+  const [suggestions, setSuggestions] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const url = process.env.REACT_APP_BACKEND_URL + '/user/get-suggestions';
+
+      try {
+        const { data } = await axios.get(url);
+        setSuggestions(data.suggestions);
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
+
   return (
     <>
       <Header />
       <main className="main-suggestions">
-        {Array.from({ length: 15 }).map(card => (
-          <SuggestionCard />
-        ))}
+        <h2>Suggestions</h2>
+        <div className="hr-line thin fad"></div>
+        {Boolean(suggestions.length) ? (
+          suggestions.map(suggestion => (
+            <FollowerCard key={suggestion._id} userData={suggestion} />
+          ))
+        ) : (
+          <p className="text-bold text-center no-suggestion-text">
+            No Suggestions
+          </p>
+        )}
       </main>
     </>
   );
