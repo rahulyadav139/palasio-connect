@@ -9,11 +9,7 @@ const ExploreImageCard = ({ post }) => {
   return (
     <Link to={`/post/${_id}`}>
       <div className="explore-image-card">
-        <img
-          className="img-responsive"
-          src={process.env.REACT_APP_BACKEND_URL + '/' + imageUrl}
-          alt={_id}
-        />
+        <img className="img-responsive" src={imageUrl} alt={_id} />
         <div className="post-details">
           <div>
             <div className="flex gap">
