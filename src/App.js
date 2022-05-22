@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import {
   Homepage,
   AuthPage,
@@ -24,6 +24,7 @@ function App() {
   const { status } = useSelector(state => state.toast);
   const { userStatus } = useSelector(state => state.user);
   const { postStatus } = useSelector(state => state.post);
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -55,6 +56,7 @@ function App() {
 
     if (userStatus === 'logged-out' || postStatus === 'logged-out') {
       dispatch(AuthActions.logoutUser());
+      navigate('/');
       dispatch(
         ToastActions.setToast({
           message: 'You have been logged out!',
