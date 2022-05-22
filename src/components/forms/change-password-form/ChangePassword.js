@@ -1,8 +1,9 @@
 import './ChangePassword.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-
+import { ToastActions } from '../../../store/toast-slice';
+import { changeUserPassword } from '../../../store/user-slice';
 const ChangePassword = props => {
   const [{ oldPassword, newPassword, confirmPassword }, setPasswordData] =
     useState({
@@ -10,35 +11,48 @@ const ChangePassword = props => {
       newPassword: '',
       confirmPassword: '',
     });
-  const { token } = useSelector(state => state.auth);
+
   const { userId } = useSelector(state => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const passwordChangeHandler = async e => {
     e.preventDefault();
 
-    if (newPassword !== confirmPassword) return;
-
-    try {
-      const res = await fetch(
-        process.env.REACT_APP_BACKEND_URL + '/user/change-password',
-        {
-          method: 'POST',
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-          body: JSON.stringify({ oldPassword, newPassword }),
-        }
+    if (newPassword !== confirmPassword)
+      return dispatch(
+        ToastActions.setToast({
+          type: 'danger',
+          message: "Password doesn't match!",
+        })
       );
 
-      if (res.status === 401) return;
+    dispatch(changeUserPassword({ oldPassword, newPassword })).then(res => {
+      if (res.error.message.includes('409')) {
+        dispatch(
+          ToastActions.setToast({
+            type: 'danger',
+            message: 'Action forbidden! This is a test account',
+          })
+        );
+      } else if (res.error.message.includes('401')) {
+        dispatch(
+          ToastActions.setToast({
+            type: 'danger',
+            message: 'Incorrect password!',
+          })
+        );
+      } else {
+        dispatch(
+          ToastActions.setToast({
+            type: 'success',
+            message: 'Password changed successfully!',
+          })
+        );
 
-      if (!res.ok) return;
-
-      navigate(`/profile/${userId}`);
-    } catch (err) {
-      console.log(err);
-    }
+        navigate(`/profile/${userId}`);
+      }
+    });
   };
   return (
     <form onSubmit={passwordChangeHandler} className="change-password-form">

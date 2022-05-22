@@ -24,7 +24,6 @@ function App() {
   const { status } = useSelector(state => state.toast);
   const { userStatus } = useSelector(state => state.user);
   const { postStatus } = useSelector(state => state.post);
-  const { authStatus } = useSelector(state => state.auth);
 
   const dispatch = useDispatch();
 
@@ -46,6 +45,15 @@ function App() {
 
   useEffect(() => {
     if (userStatus === 'error' || postStatus === 'error') {
+      dispatch(
+        ToastActions.setToast({
+          message: 'Something went wrong!',
+          type: 'danger',
+        })
+      );
+    }
+
+    if (userStatus === 'logged-out' || postStatus === 'logged-out') {
       dispatch(AuthActions.logoutUser());
       dispatch(
         ToastActions.setToast({
@@ -54,18 +62,7 @@ function App() {
         })
       );
     }
-  }, [userStatus, postStatus]);
-
-  useEffect(() => {
-    if (authStatus === 'error') {
-      dispatch(
-        ToastActions.setToast({
-          type: 'danger',
-          message: 'Invalid email and password!',
-        })
-      );
-    }
-  }, [authStatus]);
+  }, [userStatus, postStatus, dispatch]);
 
   return (
     <div className="App">

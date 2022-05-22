@@ -1,13 +1,11 @@
 import './DeleteAccount.css';
 import randomString from 'random-string';
 import { useRef, useState } from 'react';
-// import { useFetch } from '../../hooks';
-import { useFetch } from '../../../hooks';
 import { useNavigate } from 'react-router-dom';
-// import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { deleteUserAccount } from '../../../store/user-slice';
 import { AuthActions } from '../../../store/auth-slice';
+import { ToastActions } from '../../../store/toast-slice';
 
 const DeleteAccount = props => {
   const [deleteAccountCaptcha, setDeleteAccountCaptcha] = useState(
@@ -27,9 +25,19 @@ const DeleteAccount = props => {
       return;
     }
 
-    dispatch(deleteUserAccount());
-    dispatch(AuthActions.logoutUser());
-    navigate('/');
+    dispatch(deleteUserAccount()).then(res => {
+      if (res.error.message.includes('409')) {
+        dispatch(
+          ToastActions.setToast({
+            type: 'danger',
+            message: 'You can not delete test account!',
+          })
+        );
+      } else {
+        dispatch(AuthActions.logoutUser());
+        navigate('/');
+      }
+    });
   };
 
   return (

@@ -1,7 +1,6 @@
 import './FollowingCard.css';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-
 import { addToFollowings, removeFromFollowings } from '../../store/user-slice';
 
 const FollowingCard = ({
@@ -20,14 +19,7 @@ const FollowingCard = ({
   return (
     <div className=" following-card ">
       <div className="avatar small">
-        {avatarUrl ? (
-          <img
-            src={process.env.REACT_APP_BACKEND_URL + '/' + avatarUrl}
-            alt={fullName}
-          />
-        ) : (
-          fullName[0]
-        )}
+        {avatarUrl ? <img src={avatarUrl} alt={fullName} /> : fullName[0]}
       </div>
       <div>
         <Link to={`/profile/${_id}`}>

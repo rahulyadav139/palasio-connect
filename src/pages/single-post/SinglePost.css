@@ -55,3 +55,10 @@
   flex: 1 1 auto;
   border: none;
 }
+
+@media only screen and (max-width: 450px) {
+  .main-single-page {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+}

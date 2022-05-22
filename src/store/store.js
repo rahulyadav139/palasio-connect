@@ -14,3 +14,7 @@ const store = configureStore({
 });
 
 export { store };
+
+//store : collection of piece of states
+//slice : piece of state
+//slice : state, methods

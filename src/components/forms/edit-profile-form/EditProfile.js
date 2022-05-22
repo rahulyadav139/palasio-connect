@@ -1,5 +1,5 @@
 import './EditProfile.css';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { textFormatter } from '../../../utils';
 import { editProfile } from '../../../store/user-slice';
@@ -37,14 +37,7 @@ const EditProfile = props => {
         <div className="hr-line thin fad"></div>
         <div className="flex gap center">
           <div className="avatar small">
-            {avatarUrl ? (
-              <img
-                src={process.env.REACT_APP_BACKEND_URL + '/' + avatarUrl}
-                alt={fullName}
-              />
-            ) : (
-              fullName[0]
-            )}
+            {avatarUrl ? <img src={avatarUrl} alt={fullName} /> : fullName[0]}
           </div>
           <div>
             <h3>{fullName}</h3>

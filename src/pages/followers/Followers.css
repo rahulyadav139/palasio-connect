@@ -7,3 +7,11 @@
   color: var(--white-color);
   padding: 0.2rem 1rem;
 }
+.main-followers .no-follower-text {
+  margin-top: 1rem;
+}
+@media only screen and (max-width: 450px) {
+  .main-followers {
+    padding: 1rem;
+  }
+}

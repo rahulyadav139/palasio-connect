@@ -4,11 +4,10 @@ import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { getAPost } from '../../store/post-slice';
-import { Header } from '../../components';
+import { Header, LoadingSpinner } from '../../components';
 import { dateFormatter } from '../../utils';
 import { Link } from 'react-router-dom';
 import { addAComment } from '../../store/post-slice';
-import { v4 as uuid } from 'uuid';
 
 const SinglePost = props => {
   const commentInputRef = useRef();
@@ -23,9 +22,9 @@ const SinglePost = props => {
 
   useEffect(() => {
     dispatch(getAPost(postId));
-  }, []);
+  }, [dispatch, postId]);
 
-  if (!imageUrl) return <></>;
+  if (!imageUrl) return <LoadingSpinner />;
 
   const { fullName, _id: authorId, avatarUrl } = author;
 

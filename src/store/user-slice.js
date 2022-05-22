@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit';
 
 import axios from 'axios';
 
@@ -11,7 +11,6 @@ const initialState = {
   avatarUrl: '',
   savedPosts: [],
   suggestions: [],
-
   bio: '',
   website: '',
   email: '',
@@ -23,7 +22,7 @@ export const getUser = createAsyncThunk('user/getUser', async () => {
   const url = process.env.REACT_APP_BACKEND_URL + '/user/get-data';
   const { data } = await axios.get(url);
 
-  return data ;
+  return data;
 });
 
 export const getSuggestions = createAsyncThunk(
@@ -44,7 +43,7 @@ export const saveAPost = createAsyncThunk(
       user: { savedPosts },
     } = getState();
     const url = process.env.REACT_APP_BACKEND_URL + '/user/save-a-post';
-    const { status } = await axios.post(url, { postId });
+    await axios.post(url, { postId });
 
     const updatedSavedPosts = savedPosts.concat(postId);
 
@@ -61,11 +60,11 @@ export const removeASavedPost = createAsyncThunk(
 
     const url = process.env.REACT_APP_BACKEND_URL + '/user/remove-a-saved-post';
 
-   await axios.post(url, { postId });
+    await axios.post(url, { postId });
 
     const updatedSavedPosts = savedPosts.filter(id => id !== postId);
 
-    return updatedSavedPosts
+    return updatedSavedPosts;
   }
 );
 
@@ -78,7 +77,7 @@ export const addToFollowings = createAsyncThunk(
 
     const url = process.env.REACT_APP_BACKEND_URL + '/user/add-to-followings';
 
-await axios.post(url, { newToFollowings: userId });
+    await axios.post(url, { newToFollowings: userId });
 
     const updatedFollowings = followings.concat(userId);
 
@@ -96,7 +95,7 @@ export const removeFromFollowings = createAsyncThunk(
     const url =
       process.env.REACT_APP_BACKEND_URL + '/user/remove-from-followings';
 
-   await axios.post(url, { removeFromFollowings: userId });
+    await axios.post(url, { removeFromFollowings: userId });
 
     const updatedFollowings = followings.filter(id => id !== userId);
 
@@ -109,7 +108,7 @@ export const editProfile = createAsyncThunk(
   async profile => {
     const url = process.env.REACT_APP_BACKEND_URL + '/user/edit-profile';
 
-   await axios.post(url, profile);
+    await axios.post(url, profile);
 
     return profile;
   }
@@ -121,8 +120,6 @@ export const deleteUserAccount = createAsyncThunk(
     const url = process.env.REACT_APP_BACKEND_URL + '/user/delete-account';
 
     await axios.delete(url);
-
-  
   }
 );
 
@@ -145,7 +142,7 @@ export const addAvatarImage = createAsyncThunk(
 
     const data = await res.json();
 
-    return data
+    return data;
   }
 );
 
@@ -155,11 +152,18 @@ export const clearNotifications = createAsyncThunk(
     const url = process.env.REACT_APP_BACKEND_URL + '/user/clear-notifications';
 
     await axios.delete(url);
-
- 
   }
 );
 
+export const changeUserPassword = createAsyncThunk(
+  'user/changeUserPassword',
+  async passwordData => {
+    const url = process.env.REACT_APP_BACKEND_URL + '/user/change-password';
+    const { data } = await axios.post(url, passwordData);
+
+    console.log(data);
+  }
+);
 export const UserSlice = createSlice({
   name: 'user',
   initialState,
@@ -168,7 +172,11 @@ export const UserSlice = createSlice({
       state.userStatus = 'pending';
     },
     [getUser.rejected]: (state, action) => {
-      state.userStatus = 'error';
+      if (action.error.message.includes('401')) {
+        state.userStatus = 'logged-out';
+      } else {
+        state.userStatus = 'error';
+      }
     },
     [getUser.fulfilled]: (state, action) => {
       const {
@@ -203,7 +211,11 @@ export const UserSlice = createSlice({
       state.userStatus = 'pending';
     },
     [getSuggestions.rejected]: (state, action) => {
-      state.userStatus = 'error';
+      if (action.error.message.includes('401')) {
+        state.userStatus = 'logged-out';
+      } else {
+        state.userStatus = 'error';
+      }
     },
     [getSuggestions.fulfilled]: (state, action) => {
       state.userStatus = 'success';
@@ -213,7 +225,11 @@ export const UserSlice = createSlice({
       state.userStatus = 'pending';
     },
     [saveAPost.rejected]: (state, action) => {
-      state.userStatus = 'error';
+      if (action.error.message.includes('401')) {
+        state.userStatus = 'logged-out';
+      } else {
+        state.userStatus = 'error';
+      }
     },
     [saveAPost.fulfilled]: (state, action) => {
       state.savedPosts = action.payload;
@@ -223,7 +239,11 @@ export const UserSlice = createSlice({
       state.userStatus = 'pending';
     },
     [removeASavedPost.rejected]: (state, action) => {
-      state.userStatus = 'error';
+      if (action.error.message.includes('401')) {
+        state.userStatus = 'logged-out';
+      } else {
+        state.userStatus = 'error';
+      }
     },
     [removeASavedPost.fulfilled]: (state, action) => {
       state.savedPosts = action.payload;
@@ -233,7 +253,11 @@ export const UserSlice = createSlice({
       state.userStatus = 'pending';
     },
     [addToFollowings.rejected]: (state, action) => {
-      state.userStatus = 'error';
+      if (action.error.message.includes('401')) {
+        state.userStatus = 'logged-out';
+      } else {
+        state.userStatus = 'error';
+      }
     },
 
     [addToFollowings.fulfilled]: (state, action) => {
@@ -244,7 +268,11 @@ export const UserSlice = createSlice({
       state.userStatus = 'pending';
     },
     [removeFromFollowings.rejected]: (state, action) => {
-      state.userStatus = 'error';
+      if (action.error.message.includes('401')) {
+        state.userStatus = 'logged-out';
+      } else {
+        state.userStatus = 'error';
+      }
     },
 
     [removeFromFollowings.fulfilled]: (state, action) => {
@@ -255,7 +283,11 @@ export const UserSlice = createSlice({
       state.userStatus = 'pending';
     },
     [editProfile.rejected]: (state, action) => {
-      state.userStatus = 'error';
+      if (action.error.message.includes('401')) {
+        state.userStatus = 'logged-out';
+      } else {
+        state.userStatus = 'error';
+      }
     },
     [editProfile.fulfilled]: (state, action) => {
       const { fullName, username, bio, website } = action.payload;
@@ -270,7 +302,11 @@ export const UserSlice = createSlice({
       state.userStatus = 'pending';
     },
     [deleteUserAccount.rejected]: (state, action) => {
-      state.userStatus = 'error';
+      if (action.error.message.includes('401')) {
+        state.userStatus = 'logged-out';
+      } else {
+        state.userStatus = 'error';
+      }
     },
     [deleteUserAccount.fulfilled]: (state, action) => {
       state.userId = '';
@@ -290,7 +326,11 @@ export const UserSlice = createSlice({
       state.userStatus = 'pending';
     },
     [addAvatarImage.rejected]: (state, action) => {
-      state.userStatus = 'error';
+      if (action.error.message.includes('401')) {
+        state.userStatus = 'logged-out';
+      } else {
+        state.userStatus = 'error';
+      }
     },
     [addAvatarImage.fulfilled]: (state, action) => {
       const { avatarUrl } = action.payload;
@@ -302,10 +342,28 @@ export const UserSlice = createSlice({
       state.userStatus = 'pending';
     },
     [clearNotifications.rejected]: (state, action) => {
-      state.userStatus = 'error';
+      if (action.error.message.includes('401')) {
+        state.userStatus = 'logged-out';
+      } else {
+        state.userStatus = 'error';
+      }
     },
     [clearNotifications.fulfilled]: (state, action) => {
       state.notifications = [];
+      state.userStatus = 'success';
+    },
+
+    [changeUserPassword.pending]: state => {
+      state.userStatus = 'pending';
+    },
+    [changeUserPassword.rejected]: (state, action) => {
+      if (action.error.message.includes('401')) {
+        state.userStatus = 'logged-out';
+      } else {
+        state.userStatus = 'error';
+      }
+    },
+    [changeUserPassword.fulfilled]: (state, action) => {
       state.userStatus = 'success';
     },
   },

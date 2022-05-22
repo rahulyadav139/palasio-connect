@@ -1,13 +1,13 @@
 import './Suggestions.css';
-import { FollowerCard, Header } from '../../components';
+import { FollowerCard, Header, LoadingSpinner } from '../../components';
 import { useEffect, useState } from 'react';
-
 import axios from 'axios';
 
 const Suggestions = props => {
   const [suggestions, setSuggestions] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
+    setIsLoading(true);
     (async () => {
       const url = process.env.REACT_APP_BACKEND_URL + '/user/get-suggestions';
 
@@ -18,8 +18,10 @@ const Suggestions = props => {
         console.log(err);
       }
     })();
+    setIsLoading(false);
   }, []);
 
+  if (isLoading) return <LoadingSpinner />;
   return (
     <>
       <Header />

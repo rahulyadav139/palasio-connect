@@ -1,11 +1,9 @@
 import './Profile.css';
-import { Header, PostImageCard, EditUserProfileModal } from '../../components';
-import { useState, useEffect, useCallback } from 'react';
-
+import { Header, PostImageCard, LoadingSpinner } from '../../components';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
-
 import { AuthActions } from '../../store/auth-slice';
 import axios from 'axios';
 
@@ -16,7 +14,6 @@ const Profile = props => {
 
   const { userId: loggedInUser, savedPosts } = useSelector(state => state.user);
   const { posts } = useSelector(state => state.post);
-  const { token } = useSelector(state => state.auth);
 
   const totalPosts = posts.length;
   const totalSavedPosts = savedPosts.length;
@@ -39,7 +36,7 @@ const Profile = props => {
         console.log(err);
       }
     })();
-  }, [totalPosts, totalSavedPosts]);
+  }, [totalPosts, totalSavedPosts, userId]);
 
   const logoutUserHandler = () => {
     dispatch(AuthActions.logoutUser());
@@ -47,7 +44,7 @@ const Profile = props => {
     navigate('/');
   };
 
-  if (!userData.fullName) return <></>;
+  if (!userData.fullName) return <LoadingSpinner />;
   return (
     <>
       <Header />
@@ -55,19 +52,14 @@ const Profile = props => {
         <div className="profile-section">
           <div className="avatar large">
             {userData.avatarUrl ? (
-              <img
-                src={
-                  process.env.REACT_APP_BACKEND_URL + '/' + userData.avatarUrl
-                }
-                alt={userData.fullName}
-              />
+              <img src={userData.avatarUrl} alt={userData.fullName} />
             ) : (
               userData.fullName[0]
             )}
           </div>
 
           <div className="flex col gap">
-            <div className="flex gap align-center">
+            <div className="admin-actions flex gap align-center">
               <h1>{userData.fullName}</h1>
               {isUserLoggedIn && (
                 <Link to="/account/edit-profile">
@@ -92,12 +84,14 @@ const Profile = props => {
             </div>
 
             <div className="profile-stats flex space-between">
-              <div className="flex col ">
-                <p className="text-center text-bold text-large">
-                  {userData.posts.length}
-                </p>
-                <p>Posts</p>
-              </div>
+              <Link to="">
+                <div className=" ">
+                  <p className="text-center text-bold text-large">
+                    {userData.posts.length}
+                  </p>
+                  <p>Posts</p>
+                </div>
+              </Link>
               <Link to={`/profile/${userId}/followers`}>
                 <div>
                   <p className="text-center text-bold text-large">

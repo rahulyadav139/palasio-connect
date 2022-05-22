@@ -2,7 +2,6 @@ import './AuthForm.css';
 import { useState } from 'react';
 import { useInput } from '../../hooks';
 import { textFormatter } from '../../utils';
-import { AuthActions } from '../../store/actions';
 import { useDispatch } from 'react-redux';
 import { signupUser } from '../../store/auth-slice';
 

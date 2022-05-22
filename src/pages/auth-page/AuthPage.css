@@ -50,3 +50,12 @@
 .main-auth-page .brand__logo {
   border: none;
 }
+
+@media only screen and (max-width: 450px) {
+  .main-auth-page {
+    grid-template-columns: 1fr;
+  }
+  .auth-form-section {
+    order: -1;
+  }
+}

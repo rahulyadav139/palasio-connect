@@ -56,7 +56,7 @@ const AddAvatarModal = ({ onCloseModal }) => {
           ) : (
             <img
               src={localImagePath ? URL.createObjectURL(localImagePath) : ''}
-              alt="new-image-path"
+              alt="new"
             />
           )}
 

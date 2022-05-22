@@ -19,4 +19,5 @@ export { PostImageCard } from './post-image-card/PostImageCard.js';
 export { PrivateRoutes } from './private-routes/PrivateRoutes.js';
 export { SocialMediaCard } from './social-media-card/SocialMediaCard.js';
 export { Toast } from './toast/Toast.js';
+export { LoadingSpinner } from './ui/loading-spinner/LoadingSpinner.js';
 export { Modal } from './ui/modal/Modal.js';

@@ -57,11 +57,7 @@ const Navigation = () => {
             <li className=" list-item cursor-pointer flex align-center">
               <div className="avatar small">
                 {avatarUrl ? (
-                  <img
-                    src={process.env.REACT_APP_BACKEND_URL + '/' + avatarUrl}
-                    alt={userId}
-                    loading="lazy"
-                  />
+                  <img src={avatarUrl} alt={userId} loading="lazy" />
                 ) : (
                   fullName[0]
                 )}

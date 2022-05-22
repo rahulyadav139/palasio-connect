@@ -1,10 +1,9 @@
 import './PostImageCard.css';
-import { useFetch } from '../../hooks';
-import { UserActions } from '../../store/user-slice';
 import { useDispatch } from 'react-redux';
 import { deleteAPost } from '../../store/post-slice';
 import { removeASavedPost } from '../../store/user-slice';
 import { Link } from 'react-router-dom';
+import { ToastActions } from '../../store/toast-slice';
 
 const PostImageCard = ({ post, isUserLoggedIn, isSavedPost, setUserData }) => {
   const { imageUrl, likes, comments, _id } = post;
@@ -15,16 +14,19 @@ const PostImageCard = ({ post, isUserLoggedIn, isSavedPost, setUserData }) => {
   const totalComments = comments.length;
 
   const userActionHandler = () => {
-    isSavedPost ? dispatch(removeASavedPost(_id)) : dispatch(deleteAPost(_id));
+    dispatch(isSavedPost ? removeASavedPost(_id) : deleteAPost(_id)).then(() =>
+      dispatch(
+        ToastActions.setToast({
+          type: 'success',
+          message: 'Post removed!',
+        })
+      )
+    );
   };
 
   return (
     <div className="post-image-card">
-      <img
-        src={process.env.REACT_APP_BACKEND_URL + '/' + imageUrl}
-        alt={_id}
-        loading="lazy"
-      />
+      <img src={imageUrl} alt={_id} loading="lazy" />
 
       <Link to={`/post/${_id}`}>
         <div className="post-details">

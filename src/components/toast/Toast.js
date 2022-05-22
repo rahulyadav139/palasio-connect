@@ -24,7 +24,7 @@ const Toast = props => {
     }
 
     return () => clearTimeout(timer);
-  }, [status]);
+  }, [status, dispatch]);
 
   return (
     <div className={`toast ${type}`}>

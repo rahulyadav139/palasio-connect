@@ -1,9 +1,9 @@
 import './AuthForm.css';
 import { useInput } from '../../hooks';
 import { useState } from 'react';
-import { AuthActions, UserActions } from '../../store/actions';
 import { loginUser } from '../../store/auth-slice';
 import { useDispatch } from 'react-redux';
+import { ToastActions } from '../../store/toast-slice';
 
 const LoginForm = props => {
   const [showPassword, setShowPassword] = useState(false);
@@ -54,10 +54,25 @@ const LoginForm = props => {
         email: email.toLowerCase(),
         password,
       })
-    );
+    ).then(res => {
+      if (res.error.message.includes('404')) {
+        dispatch(
+          ToastActions.setToast({
+            type: 'danger',
+            message: 'User not found!',
+          })
+        );
+      }
+      if (res.error.message.includes('401')) {
+        dispatch(
+          ToastActions.setToast({
+            type: 'danger',
+            message: 'Invalid password!',
+          })
+        );
+      }
+    });
   };
-
-  
 
   const guestLoginHandler = e => {
     e.preventDefault();

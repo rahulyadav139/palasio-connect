@@ -16,3 +16,12 @@
 .main-followings .btn-remove {
   background: var(--red-color);
 }
+.main-followings .no-following-text {
+  text-align: center;
+  margin-top: 1rem;
+}
+@media only screen and (max-width: 450px) {
+  .main-followings {
+    padding: 1rem;
+  }
+}

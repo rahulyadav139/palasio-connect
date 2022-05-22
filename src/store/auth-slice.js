@@ -9,7 +9,7 @@ const initialState = {
 
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
-  async userLoginData => {
+  async (userLoginData, { rejectWithValue }) => {
     const url = process.env.REACT_APP_BACKEND_URL + '/auth/login';
     const { data } = await axios.post(url, userLoginData);
 

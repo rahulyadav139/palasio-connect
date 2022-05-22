@@ -1,8 +1,12 @@
 import './Homepage.css';
-import { Header, SocialMediaCard, FollowerCard } from '../../components';
+import {
+  Header,
+  SocialMediaCard,
+  FollowerCard,
+  LoadingSpinner,
+} from '../../components';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
 import { useSelector, useDispatch } from 'react-redux';
 import { getUser, getSuggestions } from '../../store/user-slice';
 import { getPosts } from '../../store/post-slice';
@@ -18,7 +22,7 @@ const Homepage = props => {
     dispatch(getPosts());
   }, [dispatch]);
 
-  if (!fullName) return <></>;
+  if (!fullName) return <LoadingSpinner />;
 
   return (
     <>
@@ -41,9 +45,11 @@ const Homepage = props => {
             </Link>
           </div>
           <div className="hr-line thin solid grey"></div>
-          {suggestions.map(suggestion => (
-            <FollowerCard key={suggestion._id} userData={suggestion} />
-          ))}
+          <div className="suggestions">
+            {suggestions.map(suggestion => (
+              <FollowerCard key={suggestion._id} userData={suggestion} />
+            ))}
+          </div>
         </div>
       </main>
     </>

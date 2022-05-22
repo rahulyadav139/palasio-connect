@@ -1,5 +1,5 @@
 import './Notification.css';
-import { timeDifferenceFun } from '../../utils/time-difference';
+import { timeDifferenceFun } from '../../utils';
 const Notification = ({ notification }) => {
   const {
     user: { avatarUrl, fullName, _id },

@@ -1,13 +1,14 @@
 import './AddNewPostModal.css';
 import { Modal } from '../ui/modal/Modal';
 import { useState, useRef } from 'react';
-import { useFetch } from '../../hooks';
-import { useSelector, useDispatch } from 'react-redux';
-import { UserActions } from '../../store/user-slice';
-import { createNewPost, getPosts } from '../../store/post-slice';
+
+import { useDispatch } from 'react-redux';
+
+import { createNewPost } from '../../store/post-slice';
 
 const AddNewPostModal = ({ onCloseModal }) => {
   const [localImagePath, setLocalImagePath] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
   const imageRef = useRef();
   const captionRef = useRef();
 
@@ -26,11 +27,16 @@ const AddNewPostModal = ({ onCloseModal }) => {
     form.append('image', image);
     form.append('caption', caption);
 
-    dispatch(createNewPost(form));
+    // const callNow = () => Promise.resolve();
 
-    dispatch(getPosts());
+    setIsUploading(true);
 
-    onCloseModal();
+    dispatch(createNewPost(form)).then(() => {
+      setIsUploading(false);
+      onCloseModal();
+    });
+
+    // dispatch(getPosts());
   };
 
   const uploadImageHandler = e => {
@@ -65,7 +71,7 @@ const AddNewPostModal = ({ onCloseModal }) => {
           ) : (
             <img
               src={localImagePath ? URL.createObjectURL(localImagePath) : ''}
-              alt="new-image-path"
+              alt="new-post"
             />
           )}
 
@@ -75,8 +81,12 @@ const AddNewPostModal = ({ onCloseModal }) => {
             placeholder="Caption"
             row="3"
           ></textarea>
-          <button type="submit" className="btn primary">
-            Post
+          <button
+            disabled={isUploading}
+            type="submit"
+            className={isUploading ? 'btn primary disable' : 'btn primary'}
+          >
+            {isUploading ? 'Posting' : ' Post'}
           </button>
         </form>
         <button onClick={onCloseModal} className="btn-dismiss btn icon medium">

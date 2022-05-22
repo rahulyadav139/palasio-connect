@@ -1,8 +1,5 @@
 import './SocialMediaCard.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { UserActions } from '../../store/user-slice';
-import { useFetch } from '../../hooks';
-import { dateFormatter } from '../../utils';
 import { useRef } from 'react';
 import { v4 as uuid } from 'uuid';
 import {
@@ -13,7 +10,7 @@ import {
 } from '../../store/post-slice';
 import { saveAPost, removeASavedPost } from '../../store/user-slice';
 import { Link } from 'react-router-dom';
-import { timeDifferenceFun } from '../../utils/time-difference';
+import { timeDifferenceFun } from '../../utils';
 
 const SocialMediaCard = ({ post }) => {
   const { userId, savedPosts } = useSelector(state => state.user);
@@ -24,7 +21,7 @@ const SocialMediaCard = ({ post }) => {
     imageUrl,
     likes,
     caption,
-    author: { fullName, avatarUrl, username, _id: authorId },
+    author: { fullName, avatarUrl, _id: authorId },
     comments,
     createdAt,
     _id,
@@ -65,11 +62,7 @@ const SocialMediaCard = ({ post }) => {
         <div className="flex gap align-center">
           <div className="avatar small">
             {avatarUrl ? (
-              <img
-                src={process.env.REACT_APP_BACKEND_URL + '/' + avatarUrl}
-                alt={fullName}
-                loading="lazy"
-              />
+              <img src={avatarUrl} alt={fullName} loading="lazy" />
             ) : (
               fullName[0]
             )}
@@ -88,7 +81,7 @@ const SocialMediaCard = ({ post }) => {
       <div className="image">
         <img
           className="img-responsive"
-          src={process.env.REACT_APP_BACKEND_URL + '/' + imageUrl}
+          src={imageUrl}
           alt={caption}
           loading="lazy"
         />

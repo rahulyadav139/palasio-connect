@@ -1,5 +1,5 @@
 .main-suggestions {
-  max-width: 600px;
+  max-width: 37.5rem;
   margin: 2rem auto;
 }
 .main-suggestions .btn-follow {
@@ -9,4 +9,9 @@
 }
 .no-suggestion-text {
   margin-top: 1rem;
+}
+@media only screen and (max-width: 450px) {
+  .main-suggestions {
+    padding: 1rem;
+  }
 }

@@ -1,13 +1,13 @@
 import './HamburgerNavigation.css';
 import { Fragment, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { AuthActions } from '../../store/actions';
+import { useSelector } from 'react-redux';
+// import { AuthActions } from '../../store/auth-slice';
 
 const HamburgerNavigation = props => {
   const [isHamburgerNav, setIsHamburgerNav] = useState(false);
   const { isAuth, fullName } = useSelector(state => state.auth);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ const HamburgerNavigation = props => {
     : 'hamburger-menu hamburger-menu--hide';
 
   const userLogoutHandler = () => {
-    dispatch(AuthActions.logoutHandler());
+    // dispatch(AuthActions.logoutHandler());
 
     setIsHamburgerNav(false);
   };
