@@ -1,5 +1,10 @@
 import './Homepage.css';
-import { Header, SocialMediaCard, SuggestionCard } from '../../components';
+import {
+  Header,
+  SocialMediaCard,
+  SuggestionCard,
+  AddNewPostModal,
+} from '../../components';
 
 const Homepage = props => {
   return (
@@ -22,6 +27,7 @@ const Homepage = props => {
             <SuggestionCard />
           ))}
         </div>
+        <AddNewPostModal />
       </main>
     </>
   );
