@@ -1,0 +1,9 @@
+.main-suggestions {
+  max-width: 600px;
+  margin: 2rem auto;
+}
+.main-suggestions .btn-follow {
+  background: var(--primary-color);
+  color: var(--white-color);
+  padding: 0.2rem 1rem;
+}

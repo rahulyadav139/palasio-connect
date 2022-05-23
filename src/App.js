@@ -1,12 +1,12 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
-import { Homepage, AuthPage } from './pages';
+import { Homepage, AuthPage, Suggestions } from './pages';
 
 function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Homepage />} />
+        <Route path="/" element={<Suggestions />} />
       </Routes>
     </div>
   );
