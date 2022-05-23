@@ -1,0 +1,7 @@
+.card.social {
+  margin: auto;
+  max-width: 100%;
+}
+.card.social .image img {
+  width: 100%;
+}
