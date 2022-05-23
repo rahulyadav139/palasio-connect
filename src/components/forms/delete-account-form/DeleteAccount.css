@@ -1,0 +1,11 @@
+.delete-confirmation-container h1,
+.delete-confirmation-container p {
+  margin-bottom: 1rem;
+}
+
+.delete-confirmation-container input,
+.delete-confirmation-container button {
+  display: block;
+  margin: auto;
+  margin-bottom: 1rem;
+}

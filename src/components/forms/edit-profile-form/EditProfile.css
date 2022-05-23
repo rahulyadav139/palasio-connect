@@ -1,0 +1,35 @@
+.edit-profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.edit-profile-form input,
+.edit-profile-form textarea {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  outline: none;
+  border: 1px solid var(--grey-color);
+}
+.form__row {
+  display: grid;
+  grid-template-columns: 2fr 8fr;
+  gap: 1rem;
+  align-items: center;
+}
+.edit-profile-form > div:nth-child(3) {
+  margin-bottom: 1rem;
+}
+.edit-profile-form label {
+  font-size: 1rem;
+}
+/* .form__actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+} */
+.btn-update {
+  font-size: 0.75rem;
+  margin-left: auto;
+  margin-top: 1rem;
+}
