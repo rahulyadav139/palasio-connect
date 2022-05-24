@@ -5,6 +5,7 @@ const initialState = {
   token: '',
   fullName: '',
   username: '',
+  userId: '',
 };
 
 const AuthSlice = createSlice({
@@ -12,13 +13,22 @@ const AuthSlice = createSlice({
   name: 'auth',
   reducers: {
     loginHandler(state, action) {
-      const { token, fullName, username } = action.payload;
-
-      state = { isAuth: true, token, fullName, username };
+      const { username, token, fullName, userId } = action.payload;
+      state.username = username;
+      state.userId = userId;
+      state.token = token;
+      state.fullName = fullName;
+      state.isAuth = true;
     },
 
     logoutHandler(state, action) {
-      state = { isAuth: false, token: '', fullName: '', username: '' };
+      state = {
+        isAuth: false,
+        token: '',
+        fullName: '',
+        username: '',
+        userId: '',
+      };
     },
   },
 });
