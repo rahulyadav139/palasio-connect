@@ -8,7 +8,7 @@ const initialState = {
   followers: [],
   avatarUrl: '',
   totalPosts: 0,
-  updatePosts: false,
+  saved: [],
 };
 
 const UserSlice = createSlice({
@@ -24,15 +24,19 @@ const UserSlice = createSlice({
         followings,
         avatarUrl,
         totalPosts,
+        saved,
       } = action.payload;
+
+      console.log('redux', userId);
 
       state.userId = userId;
       state.fullName = fullName;
       state.username = username;
       state.followings = followings ?? [];
       state.followers = followers ?? [];
+      state.saved = saved ?? [];
       state.avatarUrl = avatarUrl;
-      totalPosts = totalPosts;
+      state.totalPosts = totalPosts;
     },
 
     addNewFollower(state, action) {
@@ -50,6 +54,13 @@ const UserSlice = createSlice({
 
     createNewPost(state, action) {
       state.totalPosts++;
+    },
+
+    saveAPost(state, action) {
+      state.saved.push(action.payload);
+    },
+    removeAPost(state, action) {
+      state.saved = state.saved.filter(id => id !== action.payload);
     },
   },
 });

@@ -1,1 +1,1 @@
-export { dateFormatter, textFormatter, numberFormatter } from './formatter';
+export { textFormatter, dateFormatter, numberFormatter } from './formatter.js';

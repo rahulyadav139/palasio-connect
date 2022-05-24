@@ -55,4 +55,4 @@ const Navigation = ({ onAddNewPost }) => {
     </nav>
   );
 };
-export default Navigation;
+export { Navigation };
