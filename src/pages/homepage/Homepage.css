@@ -1,5 +1,4 @@
 .main-homepage {
-  /* padding: 1rem 8rem; */
   max-width: 1000px;
   margin: 2rem auto;
   display: grid;
@@ -32,4 +31,20 @@
 .avatar.medium img,
 .avatar.large img {
   border: 0px solid transparent;
+}
+
+@media only screen and (max-width: 450px) {
+  .main-homepage {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+  .suggestion-container {
+    order: -1;
+  }
+  .suggestions {
+    display: none;
+  }
+  .suggestion-container {
+    height: auto;
+  }
 }

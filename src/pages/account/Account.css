@@ -29,3 +29,17 @@
   border-top-right-radius: 1rem;
   border-bottom-right-radius: 1rem;
 }
+
+@media only screen and (max-width: 450px) {
+  .main-account {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+  }
+  .account-sidebar ul {
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+  .active-tab {
+    border-radius: 1rem;
+  }
+}

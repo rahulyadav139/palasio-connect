@@ -1,4 +1,5 @@
 const textFormatter = str => {
+  if (!str.trim()) return;
   const formattedStr = str
     .trim()
     .split(' ')

@@ -5,7 +5,7 @@
 }
 .profile-section {
   margin: auto;
-  width: 500px;
+  width: 31.25rem;
   display: grid;
   grid-template-columns: 3fr 7fr;
   gap: 2.5rem;
@@ -45,4 +45,20 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
+}
+
+@media only screen and (max-width: 450px) {
+  .main-profile-page {
+    padding: 1rem;
+  }
+  .posts-container {
+    grid-template-columns: 1fr;
+  }
+  .tab-actions {
+    padding: 1rem 0;
+  }
+  .tab-actions button,
+  .admin-actions button {
+    font-size: 1.5rem;
+  }
 }

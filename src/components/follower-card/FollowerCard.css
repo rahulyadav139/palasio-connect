@@ -1,0 +1,32 @@
+.follower-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.follower-card > .btn-follow {
+  background: none;
+  outline: none;
+  font-weight: bold;
+  border: none;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.btn-remove {
+  background: var(--primary-color);
+  outline: none;
+  font-weight: bold;
+  border: none;
+  margin-left: auto;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  color: var(--white-color);
+}
+.follower-card h5:first-child {
+  border-bottom: 1.2px solid transparent;
+}
+.follower-card h5:first-child:hover {
+  border-color: var(--black-color);
+  cursor: pointer;
+}

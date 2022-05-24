@@ -1,10 +1,10 @@
-.suggestion-card {
+.following-card {
   display: flex;
   align-items: center;
   gap: 1rem;
   margin-top: 1rem;
 }
-.suggestion-card > button {
+.following-card > .btn-follow {
   background: none;
   outline: none;
   font-weight: bold;
@@ -12,10 +12,10 @@
   margin-left: auto;
   cursor: pointer;
 }
-.suggestion-card h5:first-child {
+.following-card h5:first-child {
   border-bottom: 1.2px solid transparent;
 }
-.suggestion-card h5:first-child:hover {
+.following-card h5:first-child:hover {
   border-color: var(--black-color);
   cursor: pointer;
 }

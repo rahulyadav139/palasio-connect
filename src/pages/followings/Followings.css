@@ -1,0 +1,27 @@
+.main-followings {
+  max-width: 600px;
+  margin: 2rem auto;
+}
+.main-followings button {
+  color: var(--white-color);
+  padding: 0.2rem 1rem;
+  margin-left: auto;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+.main-followings .btn-follow {
+  background: var(--primary-color);
+}
+.main-followings .btn-remove {
+  background: var(--red-color);
+}
+.main-followings .no-following-text {
+  text-align: center;
+  margin-top: 1rem;
+}
+@media only screen and (max-width: 450px) {
+  .main-followings {
+    padding: 1rem;
+  }
+}

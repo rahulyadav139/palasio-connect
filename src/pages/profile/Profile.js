@@ -1,82 +1,117 @@
 import './Profile.css';
-import { Header, PostImageCard, EditUserProfileModal } from '../../components';
+import { Header, PostImageCard, LoadingSpinner } from '../../components';
 import { useState, useEffect } from 'react';
-import { useFetch } from '../../hooks';
-import { getFCP } from 'web-vitals';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthActions } from '../../store/auth-slice';
+import axios from 'axios';
 
 const Profile = props => {
   const [tab, setTab] = useState('posts');
-  const [isEditProfileModal, setIsEditProfileModal] = useState(false);
-  const { getData } = useFetch();
-  const [saved, setSaved] = useState([]);
-  const [posts, setPosts] = useState([]);
+
+  const [userData, setUserData] = useState({});
+
+  const { userId: loggedInUser, savedPosts } = useSelector(state => state.user);
+  const { posts } = useSelector(state => state.post);
+
+  const totalPosts = posts.length;
+  const totalSavedPosts = savedPosts.length;
+
+  const { userId } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const isUserLoggedIn = loggedInUser === userId;
 
   useEffect(() => {
     (async () => {
-      const { data, error, status } = await getData(
-        process.env.REACT_APP_BACKEND_URL + '/post/get-all-user-posts',
-        true
-      );
+      const url =
+        process.env.REACT_APP_BACKEND_URL + '/user/get-data/' + userId;
 
-      console.log(data);
-
-      setPosts(data.posts);
-      setSaved(data.saved);
+      try {
+        const { data } = await axios.get(url);
+        setUserData(data);
+      } catch (err) {
+        console.log(err);
+      }
     })();
-  }, []);
+  }, [totalPosts, totalSavedPosts, userId]);
+
+  const logoutUserHandler = () => {
+    dispatch(AuthActions.logoutUser());
+
+    navigate('/');
+  };
+
+  if (!userData.fullName) return <LoadingSpinner />;
   return (
     <>
       <Header />
       <main className="main-profile-page">
         <div className="profile-section">
           <div className="avatar large">
-            <img
-              src="https://i.picsum.photos/id/933/536/354.jpg?hmac=8lVRoNcysARFInMz443q-mc0wbgwHbJgFe5ChEo-YaQ"
-              alt="user"
-            />
+            {userData.avatarUrl ? (
+              <img src={userData.avatarUrl} alt={userData.fullName} />
+            ) : (
+              userData.fullName[0]
+            )}
           </div>
 
           <div className="flex col gap">
-            <div className="flex gap align-center">
-              <h1>Rahul Yadav</h1>
-              <button
-                onClick={() => setIsEditProfileModal(true)}
-                title="Edit Profile"
-                className="btn icon primary medium"
-              >
-                <i class="fas fa-user-cog"></i>
-              </button>
+            <div className="admin-actions flex gap align-center">
+              <h1>{userData.fullName}</h1>
+              {isUserLoggedIn && (
+                <Link to="/account/edit-profile">
+                  <button
+                    title="Edit Profile"
+                    className="btn icon primary medium"
+                  >
+                    <i className="fas fa-user-cog"></i>
+                  </button>
+                </Link>
+              )}
 
-              <button title="Sign Out" className="btn icon primary medium">
-                <i class="fas fa-sign-out-alt"></i>
-              </button>
+              {isUserLoggedIn && (
+                <button
+                  onClick={logoutUserHandler}
+                  title="Sign Out"
+                  className="btn icon primary medium"
+                >
+                  <i className="fas fa-sign-out-alt"></i>
+                </button>
+              )}
             </div>
 
             <div className="profile-stats flex space-between">
-              <div>
-                <p className="text-center text-bold text-large">14</p>
-                <p>Posts</p>
-              </div>
-              <div>
-                <p className="text-center text-bold text-large">14</p>
-                <p>Followers</p>
-              </div>
-              <div>
-                <p className="text-center text-bold text-large">14</p>
-                <p>Following</p>
-              </div>
+              <Link to="">
+                <div className=" ">
+                  <p className="text-center text-bold text-large">
+                    {userData.posts.length}
+                  </p>
+                  <p>Posts</p>
+                </div>
+              </Link>
+              <Link to={`/profile/${userId}/followers`}>
+                <div>
+                  <p className="text-center text-bold text-large">
+                    {userData.followers.length}
+                  </p>
+                  <p>Followers</p>
+                </div>
+              </Link>
+              <Link to={`/profile/${userId}/followings`}>
+                <div>
+                  <p className="text-center text-bold text-large">
+                    {userData.followings.length}
+                  </p>
+                  <p>Following</p>
+                </div>
+              </Link>
             </div>
-            <p>
-              Lorem ipsum is a placeholder text
-              <br />
-              Lorem ipsum is a placeholder text
-              <br />
-              Lorem ipsum is a placeholder text
-              <br />
-              Lorem ipsum is a placeholder text
-              <br />
-              Lorem ipsum is a placeholder text
-              <br />
+            <p>{userData.bio ?? ''}</p>
+            <p className="text-bold text-primary-dark">
+              {userData.website ?? ''}
             </p>
           </div>
         </div>
@@ -86,33 +121,41 @@ const Profile = props => {
             className={tab === 'posts' ? 'active-tab' : ''}
             onClick={() => setTab('posts')}
           >
-            <i class="fas fa-table"></i> Posts
+            <i className="fas fa-table"></i> Posts
           </button>
           <button
             className={tab === 'saved' ? 'active-tab' : ''}
             onClick={() => setTab('saved')}
           >
-            <i class="fas fa-bookmark"></i> Saved
+            <i className="fas fa-bookmark"></i> Saved
           </button>
         </div>
         {tab === 'posts' && (
           <div className="posts-container">
-            {posts.map(post => (
-              <PostImageCard />
+            {userData.posts?.map(post => (
+              <PostImageCard
+                key={post._id}
+                post={post}
+                isUserLoggedIn={isUserLoggedIn}
+                isSavedPost={false}
+              />
             ))}
           </div>
         )}
+
         {tab === 'saved' && (
           <div className="posts-container">
-            {saved.map(post => (
-              <PostImageCard />
+            {userData.savedPosts?.map(post => (
+              <PostImageCard
+                key={post._id}
+                post={post}
+                isUserLoggedIn={isUserLoggedIn}
+                isSavedPost={true}
+              />
             ))}
           </div>
         )}
       </main>
-      {isEditProfileModal && (
-        <EditUserProfileModal closeModal={() => setIsEditProfileModal(false)} />
-      )}
     </>
   );
 };

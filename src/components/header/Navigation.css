@@ -1,11 +1,11 @@
-.nav-bar .notification-items {
+/* .nav-bar .notification-items {
   position: relative;
   cursor: pointer;
-}
+  /* border: 1px solid blue; */
 
-.notification-container {
+/* .notification-container {
   position: absolute;
-  top: 3rem;
+  top: 2rem;
   right: -100px;
   display: none;
   padding: 0.5rem 1rem;
@@ -13,8 +13,9 @@
   width: 25rem;
   text-align: center;
   background: var(--white-color);
-}
-.notification-items .test:focus ~ .notification-container {
+  /* border: 1px solid red; */
+
+/* .notification-items:hover .notification-container {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -24,7 +25,7 @@
 }
 .dark-theme .notification-container {
   background: var(--dark-theme-bg-color);
-}
+} */
 /* .profile-item-dropdown button {
   margin: auto;
   margin-bottom: 0.5rem;
@@ -40,7 +41,7 @@
   gap: 1rem;
 } */
 
-.profile-item-dropdown ul li {
+/* .profile-item-dropdown ul li {
   width: 100%;
   display: flex;
   gap: 1rem;
@@ -55,7 +56,7 @@
 .dark-theme .profile-item-dropdown ul li:hover,
 .dark-theme .profile-item-dropdown ul li:active {
   background: var(--black-color);
-}
+} */
 .theme-toggle {
   top: 0;
 }
@@ -75,7 +76,7 @@
   nav {
     margin-left: auto;
   }
-  .list-item {
+  /* .list-item {
     display: none;
-  }
+  } */
 }
