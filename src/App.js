@@ -1,6 +1,13 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
-import { Homepage, AuthPage, Suggestions, Profile, Account } from './pages';
+import {
+  Homepage,
+  AuthPage,
+  Suggestions,
+  Profile,
+  Account,
+  ExplorePage,
+} from './pages';
 
 function App() {
   return (
@@ -9,6 +16,7 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/suggestions" element={<Suggestions />} />
         <Route path="/account/*" element={<Account />} />
+        <Route path="/explore" element={<ExplorePage />} />
       </Routes>
     </div>
   );

@@ -27,7 +27,7 @@ const Homepage = props => {
             <SuggestionCard />
           ))}
         </div>
-        <AddNewPostModal />
+        {/* <AddNewPostModal /> */}
       </main>
     </>
   );
