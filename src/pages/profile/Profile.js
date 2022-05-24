@@ -1,10 +1,29 @@
 import './Profile.css';
 import { Header, PostImageCard, EditUserProfileModal } from '../../components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useFetch } from '../../hooks';
+import { getFCP } from 'web-vitals';
 
 const Profile = props => {
   const [tab, setTab] = useState('posts');
   const [isEditProfileModal, setIsEditProfileModal] = useState(false);
+  const { getData } = useFetch();
+  const [saved, setSaved] = useState([]);
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const { data, error, status } = await getData(
+        process.env.REACT_APP_BACKEND_URL + '/post/get-all-user-posts',
+        true
+      );
+
+      console.log(data);
+
+      setPosts(data.posts);
+      setSaved(data.saved);
+    })();
+  }, []);
   return (
     <>
       <Header />
@@ -76,11 +95,20 @@ const Profile = props => {
             <i class="fas fa-bookmark"></i> Saved
           </button>
         </div>
-        <div className="posts-container">
-          {Array.from({ length: 12 }).map(post => (
-            <PostImageCard />
-          ))}
-        </div>
+        {tab === 'posts' && (
+          <div className="posts-container">
+            {posts.map(post => (
+              <PostImageCard />
+            ))}
+          </div>
+        )}
+        {tab === 'saved' && (
+          <div className="posts-container">
+            {saved.map(post => (
+              <PostImageCard />
+            ))}
+          </div>
+        )}
       </main>
       {isEditProfileModal && (
         <EditUserProfileModal closeModal={() => setIsEditProfileModal(false)} />
