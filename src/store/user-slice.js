@@ -8,6 +8,7 @@ const initialState = {
   followers: [],
   avatarUrl: '',
   totalPosts: 0,
+  updatePosts: false,
 };
 
 const UserSlice = createSlice({
