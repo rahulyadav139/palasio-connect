@@ -4,9 +4,11 @@ import { useState } from 'react';
 import { loginUser } from '../../store/auth-slice';
 import { useDispatch } from 'react-redux';
 import { ToastActions } from '../../store/toast-slice';
+import { LoadingSpinner } from '../ui/loading-spinner/LoadingSpinner';
 
 const LoginForm = props => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -48,7 +50,7 @@ const LoginForm = props => {
       passwordIsTouched(true);
       return;
     }
-
+    setIsLoading(true);
     dispatch(
       loginUser({
         email: email.toLowerCase(),
@@ -71,18 +73,22 @@ const LoginForm = props => {
           })
         );
       }
+      setIsLoading(false);
     });
   };
 
   const guestLoginHandler = e => {
     e.preventDefault();
+    setIsLoading(true);
     dispatch(
       loginUser({
         email: process.env.REACT_APP_TEST_ID,
         password: process.env.REACT_APP_TEST_PASSWORD,
-      })
+      }).then(() => setIsLoading(false))
     );
   };
+
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <form onSubmit={submitHandler} className="auth-form shadow">
