@@ -1,19 +1,36 @@
 import './SuggestionCard.css';
 
-const SuggestionCard = props => {
+import { useFetch } from '../../hooks';
+import { useDispatch } from 'react-redux';
+import { UserActions } from '../../store/user-slice';
+
+const SuggestionCard = ({ avatarUrl, username, fullName, _id }) => {
+  const dispatch = useDispatch();
+  const { sendData } = useFetch();
+  const addToFollowingsHandler = async () => {
+    const { data, error, status } = await sendData(
+      process.env.REACT_APP_BACKEND_URL + '/add-to-followings',
+      'POST',
+      { newToFollowings: _id },
+      true
+    );
+
+    if (error) return;
+
+    dispatch(UserActions.addToFollowings(_id));
+  };
   return (
     <div className=" suggestion-card ">
       <div className="avatar small">
-        <img
-          src="https://i.picsum.photos/id/933/536/354.jpg?hmac=8lVRoNcysARFInMz443q-mc0wbgwHbJgFe5ChEo-YaQ"
-          alt=""
-        />
+        {avatarUrl ? <img src={avatarUrl} alt={fullName} /> : fullName[0]}
       </div>
       <div>
-        <h5>rahulyadav139</h5>
-        <h5 className="text-grey">Rahul Yadav</h5>
+        <h5>{username}</h5>
+        <h5 className="text-grey">{fullName}</h5>
       </div>
-      <button className="btn-follow">Follow</button>
+      <button onClick={addToFollowingsHandler} className="btn-follow">
+        Follow
+      </button>
     </div>
   );
 };

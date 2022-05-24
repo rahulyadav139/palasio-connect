@@ -1,7 +1,7 @@
 import './AuthForm.css';
 import { useInput, useFetch } from '../../hooks';
 import { useState } from 'react';
-import { AuthActions } from '../../store/actions';
+import { AuthActions, UserActions } from '../../store/actions';
 import { useDispatch } from 'react-redux';
 
 const LoginForm = props => {
@@ -64,9 +64,14 @@ const LoginForm = props => {
 
     dispatch(
       AuthActions.loginHandler({
+        token,
+      })
+    );
+
+    dispatch(
+      UserActions.initializeAccount({
         fullName,
         username: loginUsername,
-        token,
         userId,
       })
     );

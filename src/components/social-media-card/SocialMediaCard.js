@@ -1,18 +1,30 @@
 import './SocialMediaCard.css';
 
-const SocialMediaCard = props => {
+const SocialMediaCard = ({ post }) => {
+  const {
+    imageUrl,
+    likes,
+    caption,
+    author: { fullName, avatarUrl },
+    comments,
+    createdAt,
+  } = post;
   return (
     <div class="card shadow social">
       <div class="flex space-between align-center">
         <div class="flex gap align-center">
           <div class="avatar small">
-            <img
-              src="https://i.picsum.photos/id/933/536/354.jpg?hmac=8lVRoNcysARFInMz443q-mc0wbgwHbJgFe5ChEo-YaQ"
-              alt=""
-            />
+            {avatarUrl ? (
+              <img
+                src={process.env.REACT_APP_BACKEND_URL + '/' + imageUrl}
+                alt={fullName}
+              />
+            ) : (
+              fullName[0]
+            )}
           </div>
           <div class="flex col">
-            <div class="user">Michael</div>
+            <div class="user">{fullName}</div>
             <div class="time">Today</div>
           </div>
         </div>
@@ -23,8 +35,8 @@ const SocialMediaCard = props => {
       <div class="image">
         <img
           class="img-responsive"
-          src="https://i.picsum.photos/id/933/536/354.jpg?hmac=8lVRoNcysARFInMz443q-mc0wbgwHbJgFe5ChEo-YaQ"
-          alt=""
+          src={process.env.REACT_APP_BACKEND_URL + '/' + imageUrl}
+          alt={caption}
         />
       </div>
       <div class="actions flex gap">
@@ -34,12 +46,11 @@ const SocialMediaCard = props => {
         <button class="btn icon medium primary">
           <i class="far fa-comment"></i>
         </button>
-
         <button class="btn icon medium primary">
-          <i class="fas fa-share-alt"></i>
+          <i class="bi bi-bookmark"></i>
         </button>
       </div>
-      <p>sdfbsdfbsfbsfbsdfbsdfbsfb</p>
+      <p>{caption}</p>
       <div className="hr-line thin solid grey"></div>
       <div className="comment-actions">
         <input placeholder="Add a comment" />

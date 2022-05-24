@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 
 function App() {
   const isAuth = useSelector(state => state.auth.isAuth);
+  console.log('top');
 
   return (
     <div className="App">
@@ -20,6 +21,7 @@ function App() {
         <Route path="/suggestions" element={<Suggestions />} />
         <Route path="/account/*" element={<Account />} />
         <Route path="/explore" element={<ExplorePage />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </div>
   );
