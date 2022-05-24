@@ -40,7 +40,11 @@ const SocialMediaCard = props => {
         </button>
       </div>
       <p>sdfbsdfbsfbsfbsdfbsdfbsfb</p>
-      <div class="actions">{/* <input /> */}</div>
+      <div className="hr-line thin solid grey"></div>
+      <div className="comment-actions">
+        <input placeholder="Add a comment" />
+        <button>Comment</button>
+      </div>
     </div>
   );
 };
