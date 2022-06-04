@@ -5,7 +5,7 @@ import { textFormatter } from '../../utils';
 import { useDispatch } from 'react-redux';
 import { signupUser } from '../../store/auth-slice';
 
-const SignupForm = props => {
+const SignupForm = ({  setIsLoading, onSwitch }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordValidity, setPasswordValidity] = useState(false);
@@ -139,7 +139,9 @@ const SignupForm = props => {
       password,
     };
 
-    dispatch(signupUser(userData));
+    setIsLoading(true)
+
+    dispatch(signupUser(userData)).then(()=> setIsLoading(false))
   };
 
   return (
@@ -251,7 +253,7 @@ const SignupForm = props => {
       </button>
       <p className="switch__msg">
         Already a member?{' '}
-        <span onClick={props.onSwitch} className="switch__method">
+        <span onClick={onSwitch} className="switch__method">
           Login here
         </span>
       </p>

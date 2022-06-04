@@ -4,11 +4,9 @@ import { useState } from 'react';
 import { loginUser } from '../../store/auth-slice';
 import { useDispatch } from 'react-redux';
 import { ToastActions } from '../../store/toast-slice';
-import { LoadingSpinner } from '../ui/loading-spinner/LoadingSpinner';
 
-const LoginForm = props => {
+const LoginForm = ({ setIsLoading, onSwitch }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -84,11 +82,11 @@ const LoginForm = props => {
       loginUser({
         email: process.env.REACT_APP_TEST_ID,
         password: process.env.REACT_APP_TEST_PASSWORD,
-      }).then(() => setIsLoading(false))
-    );
+      })
+    ).then(() => {
+      setIsLoading(false);
+    });
   };
-
-  if (isLoading) return <LoadingSpinner />;
 
   return (
     <form onSubmit={submitHandler} className="auth-form shadow">
@@ -142,7 +140,7 @@ const LoginForm = props => {
       </button>
       <p className="switch__msg">
         Already a member?{' '}
-        <span onClick={props.onSwitch} className="switch__method">
+        <span onClick={onSwitch} className="switch__method">
           Signup here
         </span>
       </p>

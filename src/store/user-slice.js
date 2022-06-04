@@ -160,8 +160,6 @@ export const changeUserPassword = createAsyncThunk(
   async passwordData => {
     const url = process.env.REACT_APP_BACKEND_URL + '/user/change-password';
     const { data } = await axios.post(url, passwordData);
-
-    console.log(data);
   }
 );
 export const UserSlice = createSlice({

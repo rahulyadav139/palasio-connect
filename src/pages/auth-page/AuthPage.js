@@ -1,13 +1,16 @@
 import './AuthPage.css';
 import { useState } from 'react';
-import { LoginForm, SignupForm } from '../../components';
+import { LoginForm, SignupForm, LoadingSpinner } from '../../components';
 
 const AuthPage = props => {
   const [isLogin, setIsLogin] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const authMethodSwitchHandler = () => {
     setIsLogin(prev => !prev);
   };
+
+  if (isLoading) return <LoadingSpinner />;
   return (
     <main className="main-auth-page">
       <div className="intro-section">
@@ -27,9 +30,15 @@ const AuthPage = props => {
 
       <div className="auth-form-section">
         {isLogin ? (
-          <LoginForm onSwitch={authMethodSwitchHandler} />
+          <LoginForm
+            onSwitch={authMethodSwitchHandler}
+            setIsLoading={setIsLoading}
+          />
         ) : (
-          <SignupForm onSwitch={authMethodSwitchHandler} />
+          <SignupForm
+            onSwitch={authMethodSwitchHandler}
+            setIsLoading={setIsLoading}
+          />
         )}
       </div>
     </main>
